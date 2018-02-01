@@ -10,6 +10,32 @@ var clickY = new Array();
 var clickDrag = new Array();
 var paint;
 
+//buttons functions to be implemented
+var circle = document.getElementById('circle');
+circle.addEventListener('click',function(){
+
+});
+
+var rectangle = document.getElementById('rectangle');
+rectangle.addEventListener('click',function(){
+
+});
+
+var line = document.getElementById('line');
+line.addEventListener('click',function(){
+
+});
+
+var text = document.getElementById('text');
+text.addEventListener('click',function(){
+
+});
+
+var pen = document.getElementById('pen');
+pen.addEventListener('click',function(){
+
+});
+
 function addClick(x, y, dragging)
 {
   clickX.push(x);

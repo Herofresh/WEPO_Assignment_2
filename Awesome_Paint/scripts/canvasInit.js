@@ -18,27 +18,33 @@ circle.addEventListener('click',function(){
 
 var rectangle = document.getElementById('rectangle');
 rectangle.addEventListener('click',function(){
+  console.log('to be implemented');
 
 });
 
 var line = document.getElementById('line');
 line.addEventListener('click',function(){
+  console.log('to be implemented');
 
 });
 
 var text = document.getElementById('text');
 text.addEventListener('click',function(){
+  console.log('to be implemented');
 
 });
 
 var pen = document.getElementById('pen');
 pen.addEventListener('click',function(){
+  console.log('to be implemented');
 
 });
 
+//Record the position of the mouse in an array. 
 function addClick(x, y, dragging)
 {
-  clickX.push(x);
+//adds one or more elements to the end of an array and returns the new length of the array.
+  clickX.push(x); 
   clickY.push(y);
   clickDrag.push(dragging);
 }
@@ -67,6 +73,10 @@ $('#canvas').mouseleave(function(e){
     paint = false;
 });
 
+function DrawCircle(clickX,clickY,canvas){
+    var rad = dist(clickX,clickY);
+
+}
 
 function redraw(){
     context.clearRect(0, 0, context.canvas.width, context.canvas.height); // Clears the canvas

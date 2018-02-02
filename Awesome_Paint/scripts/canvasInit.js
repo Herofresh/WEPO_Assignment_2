@@ -14,11 +14,24 @@ var paintCircle = false;
 var paintRectangle = false;
 var paintLine = false;
 var paintText = false;
+var eraser = false;
 
 var color = "#FFFFFF";
 
 //buttons functions to be implemented
+$('#eraser').click(function(){
+    eraser = true;
+    paintCircle = false;
+    paintPen = false;
+    paintRectangle = false;
+    paintLine = false;
+    paintText = false;
+  
+});
+
+
 $('#circle').click(function(){
+    eraser = true;
     paintCircle = true;
     paintPen = false;
     paintRectangle = false;
@@ -27,6 +40,7 @@ $('#circle').click(function(){
 });
 
 $('#rectangle').click(function(){
+    eraser = true;
     paintCircle = false;
     paintPen = false;
     paintRectangle = true;
@@ -35,6 +49,7 @@ $('#rectangle').click(function(){
 });
 
 $('#line').click(function(){
+    eraser = true;
     paintCircle = false;
     paintPen = false;
     paintRectangle = false;
@@ -43,6 +58,7 @@ $('#line').click(function(){
 });
 
 $('#text').click(function(){
+    eraser = true;
     paintCircle = false;
     paintPen = false;
     paintRectangle = false;
@@ -51,6 +67,7 @@ $('#text').click(function(){
 });
 
 $('#pen').click(function(){
+    eraser = true;
     paintCircle = false;
     paintPen = true;
     paintRectangle = false;
@@ -94,6 +111,13 @@ function DrawCircle(clickX,clickY){
     var rad = dist(clickX,clickY);
 
 }
+
+$('#eraser').click(function(){
+    context.clearRect(0, 0, context.canvas.width, context.canvas.height); 
+    allObjects = null; 
+    console.log('allObjects'); 
+
+})
 
 function redraw(){
     context.clearRect(0, 0, context.canvas.width, context.canvas.height); // Clears the canvas

@@ -76,12 +76,24 @@ $('#color').change(function(e) {
 });
 
 $('#canvas').mousedown(function(e){
-    if(paintPen)
+    if(paintPen || paintRectangle || paintCircle || paintLine || paintText)
     {
-        var penLine = { type: 'pen',  points : [], color : color }
+        var shape
+        if(paintPen) {
+            shape = "pen";
+        } else if(paintRectangle) {
+            shape = "rectangle";
+        } else if(paintCircle) {
+            shape = "circle";
+        } else if(paintLine) {
+            shape = "line";
+        } else if(paintText) {
+            shape = "text";
+        }
+        var object = { type: shape,  points : [], color : color }
         var point = { x : e.pageX - this.offsetLeft , y : e.pageY - this.offsetTop, dragging : false }
-        penLine.points.push(point);
-        allObjects.push(penLine);
+        object.points.push(point);
+        allObjects.push(object);
     }
           
     paint = true;
@@ -94,16 +106,30 @@ $('#canvas').mousemove(function(e){
         if(paintPen)
         {
             allObjects[allObjects.length - 1].points.push( { x : e.pageX - this.offsetLeft , y : e.pageY - this.offsetTop, dragging : true } )
+            redraw();
+        } else if(paintRectangle) {
+            redraw({ x : e.pageX - this.offsetLeft , y : e.pageY - this.offsetTop, dragging : false });
         }
-        redraw();
     }
 });
 
 $('#canvas').mouseup(function(e){
+    if(paint){
+        if(paintRectangle) {
+            allObjects[allObjects.length - 1].points.push( { x : e.pageX - this.offsetLeft , y : e.pageY - this.offsetTop, dragging : true } )
+            redraw();
+        }
+    }
     paint = false;
 });
 
 $('#canvas').mouseleave(function(e){
+    if(paint){
+        if(paintRectangle) {
+            allObjects[allObjects.length - 1].points.push( { x : e.pageX - this.offsetLeft , y : e.pageY - this.offsetTop, dragging : true } )
+            redraw();
+        }
+    }
     paint = false;
 });
 
@@ -121,21 +147,10 @@ $('#eraser').click(function(){
 
 $('#size').click(function(){
     size = 10+context.lineWidth;
-     
-
 })
 
-function redraw(){
+function redraw( currentpoint ){
     context.clearRect(0, 0, context.canvas.width, context.canvas.height); // Clears the canvas
-
-    console.log(allObjects);
-<<<<<<< HEAD
-    
-    context.strokeStyle = "#df4b26";
-    context.lineJoin = "round";
-    context.lineWidth = size;
-=======
->>>>>>> 29282c05505e65dfd6defa616cdbc6d468e2cf26
 
     $.each(allObjects, function(i, value){
         if(value.type === 'pen')
@@ -155,6 +170,31 @@ function redraw(){
                  context.stroke();
             }
         }
+        if(value.type === 'rectangle')
+        {
+            if((value.points.length < 2 && currentpoint) || (value.points.length === 2))
+            {
+                var dif
+                if( value.points.length < 2 && currentpoint )
+                {
+                    dif = difPoints(value.points[0], currentpoint)
+                }
+                if( value.points.length === 2)
+                {
+                    dif = difPoints(value.points[0], value.points[1])
+                }
+                context.beginPath();
+                context.rect(value.points[0].x, value.points[0].y , dif.difx, dif.dify);
+                context.fillStyle = value.color;
+                context.fill();
+            }
+        }
     });
+    console.log(allObjects);
+}
 
+function difPoints ( point1, point2){
+    var xdif = (point2.x - point1.x);
+    var ydif = (point2.y - point1.y);
+    return {difx : xdif , dify : ydif};
 }

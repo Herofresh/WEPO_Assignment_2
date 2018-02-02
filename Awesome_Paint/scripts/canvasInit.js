@@ -16,7 +16,6 @@ var paintLine = false;
 var paintText = false;
 var eraser = false;
 var size = 5;
-
 var color = "#ff0000";
 
 //buttons functions to be implemented
@@ -27,7 +26,7 @@ $('#circle').click(function(){
     paintRectangle = false;
     paintLine = false;
     paintText = false;
-    size = false;
+    
 });
 
 $('#rectangle').click(function(){
@@ -37,7 +36,7 @@ $('#rectangle').click(function(){
     paintRectangle = true;
     paintLine = false;
     paintText = false;
-    size = false;
+   
 });
 
 $('#line').click(function(){
@@ -47,7 +46,7 @@ $('#line').click(function(){
     paintRectangle = false;
     paintLine = true;
     paintText = false;
-    size = false;
+    
 });
 
 $('#text').click(function(){
@@ -57,7 +56,7 @@ $('#text').click(function(){
     paintRectangle = false;
     paintLine = false;
     paintText = true;
-    size = false;
+    
 });
 
 $('#pen').click(function(){
@@ -67,7 +66,7 @@ $('#pen').click(function(){
     paintRectangle = false;
     paintLine = false;
     paintText = false;
-    size = false;
+    
 });
 
 $('#color').change(function(e) {
@@ -75,10 +74,14 @@ $('#color').change(function(e) {
     console.log(color);
 });
 
+$('#size').change(function(e){
+    size = e.target.value;
+    console.log(size);
+});
 $('#canvas').mousedown(function(e){
     if(paintPen)
     {
-        var penLine = { type: 'pen',  points : [], color : color }
+        var penLine = { type: 'pen',  points : [], color : color, size : size }
         var point = { x : e.pageX - this.offsetLeft , y : e.pageY - this.offsetTop, dragging : false }
         penLine.points.push(point);
         allObjects.push(penLine);
@@ -119,30 +122,24 @@ $('#eraser').click(function(){
 
 })
 
-$('#size').click(function(){
-    size = 10+context.lineWidth;
-     
-
-})
 
 function redraw(){
     context.clearRect(0, 0, context.canvas.width, context.canvas.height); // Clears the canvas
 
     console.log(allObjects);
-<<<<<<< HEAD
+
     
     context.strokeStyle = "#df4b26";
     context.lineJoin = "round";
-    context.lineWidth = size;
-=======
->>>>>>> 29282c05505e65dfd6defa616cdbc6d468e2cf26
+    context.lineWidth = 5;
+
 
     $.each(allObjects, function(i, value){
         if(value.type === 'pen')
         {
             context.strokeStyle = value.color;
             context.lineJoin = "round";
-            context.lineWidth = 5;
+            context.lineWidth = value.size;
             for(var i=0; i < value.points.length; i++) {		
                 context.beginPath();
                 if(value.points[i].dragging && i){

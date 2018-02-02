@@ -121,24 +121,28 @@ $('#eraser').click(function(){
 
 function redraw(){
     context.clearRect(0, 0, context.canvas.width, context.canvas.height); // Clears the canvas
+
+    console.log(allObjects);
     
     context.strokeStyle = "#df4b26";
     context.lineJoin = "round";
     context.lineWidth = 5;
 
-    $.each(allObjects, function(value){
+    $.each(allObjects, function(i, value){
+        if(value.type === 'pen')
+        {
+            for(var i=0; i < value.points.length; i++) {		
+                context.beginPath();
+                if(value.points[i].dragging && i){
+                  context.moveTo(value.points[i-1].x, value.points[i-1].y);
+                 }else{
+                   context.moveTo(value.points[i].x-1, value.points[i].y);
+                 }
+                 context.lineTo(value.points[i].x, value.points[i].y);
+                 context.closePath();
+                 context.stroke();
+            }
+        }
+    });
 
-    })
-              
-    for(var i=0; i < clickX.length; i++) {		
-      context.beginPath();
-      if(clickDrag[i] && i){
-        context.moveTo(clickX[i-1], clickY[i-1]);
-       }else{
-         context.moveTo(clickX[i]-1, clickY[i]);
-       }
-       context.lineTo(clickX[i], clickY[i]);
-       context.closePath();
-       context.stroke();
-    }
 }

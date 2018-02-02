@@ -16,7 +16,6 @@ var paintLine = false;
 var paintText = false;
 var eraser = false;
 var size = 5;
-
 var color = "#ff0000";
 
 //buttons functions to be implemented
@@ -27,7 +26,7 @@ $('#circle').click(function(){
     paintRectangle = false;
     paintLine = false;
     paintText = false;
-    size = false;
+    
 });
 
 $('#rectangle').click(function(){
@@ -37,7 +36,7 @@ $('#rectangle').click(function(){
     paintRectangle = true;
     paintLine = false;
     paintText = false;
-    size = false;
+   
 });
 
 $('#line').click(function(){
@@ -47,7 +46,7 @@ $('#line').click(function(){
     paintRectangle = false;
     paintLine = true;
     paintText = false;
-    size = false;
+    
 });
 
 $('#text').click(function(){
@@ -57,7 +56,7 @@ $('#text').click(function(){
     paintRectangle = false;
     paintLine = false;
     paintText = true;
-    size = false;
+    
 });
 
 $('#pen').click(function(){
@@ -67,7 +66,7 @@ $('#pen').click(function(){
     paintRectangle = false;
     paintLine = false;
     paintText = false;
-    size = false;
+    
 });
 
 $('#color').change(function(e) {
@@ -75,6 +74,10 @@ $('#color').change(function(e) {
     console.log(color);
 });
 
+$('#size').change(function(e){
+    size = e.target.value;
+    console.log(size);
+});
 $('#canvas').mousedown(function(e){
     if(paintPen || paintRectangle || paintCircle || paintLine || paintText)
     {
@@ -90,7 +93,7 @@ $('#canvas').mousedown(function(e){
         } else if(paintText) {
             shape = "text";
         }
-        var object = { type: shape,  points : [], color : color }
+        var object = { type: shape,  points : [], color : color, size : size }
         var point = { x : e.pageX - this.offsetLeft , y : e.pageY - this.offsetTop, dragging : false }
         object.points.push(point);
         allObjects.push(object);
@@ -145,9 +148,6 @@ $('#eraser').click(function(){
 
 })
 
-$('#size').click(function(){
-    size = 10+context.lineWidth;
-})
 
 function redraw( currentpoint ){
     context.clearRect(0, 0, context.canvas.width, context.canvas.height); // Clears the canvas
@@ -157,7 +157,7 @@ function redraw( currentpoint ){
         {
             context.strokeStyle = value.color;
             context.lineJoin = "round";
-            context.lineWidth = 5;
+            context.lineWidth = value.size;
             for(var i=0; i < value.points.length; i++) {		
                 context.beginPath();
                 if(value.points[i].dragging && i){

@@ -110,7 +110,7 @@ $('#canvas').mousemove(function(e){
         {
             allObjects[allObjects.length - 1].points.push( { x : e.pageX - this.offsetLeft , y : e.pageY - this.offsetTop, dragging : true } )
             redraw();
-        } else if(paintRectangle) {
+        } else if(paintRectangle || paintCircle) {
             redraw({ x : e.pageX - this.offsetLeft , y : e.pageY - this.offsetTop, dragging : false });
         }
     }
@@ -118,7 +118,7 @@ $('#canvas').mousemove(function(e){
 
 $('#canvas').mouseup(function(e){
     if(paint){
-        if(paintRectangle) {
+        if(paintRectangle || paintCircle) {
             allObjects[allObjects.length - 1].points.push( { x : e.pageX - this.offsetLeft , y : e.pageY - this.offsetTop, dragging : true } )
             redraw();
         }
@@ -128,7 +128,7 @@ $('#canvas').mouseup(function(e){
 
 $('#canvas').mouseleave(function(e){
     if(paint){
-        if(paintRectangle) {
+        if(paintRectangle || paintCircle) {
             allObjects[allObjects.length - 1].points.push( { x : e.pageX - this.offsetLeft , y : e.pageY - this.offsetTop, dragging : true } )
             redraw();
         }
@@ -136,10 +136,6 @@ $('#canvas').mouseleave(function(e){
     paint = false;
 });
 
-function DrawCircle(clickX,clickY){
-    var rad = dist(clickX,clickY);
-
-}
 
 $('#eraser').click(function(){
     context.clearRect(0, 0, context.canvas.width, context.canvas.height); 
@@ -185,6 +181,26 @@ function redraw( currentpoint ){
                 }
                 context.beginPath();
                 context.rect(value.points[0].x, value.points[0].y , dif.difx, dif.dify);
+                context.fillStyle = value.color;
+                context.fill();
+            }
+        }
+
+             if(value.type === 'circle')
+        {
+            if((value.points.length < 2 && currentpoint) || (value.points.length === 2))
+            {
+                var dif
+                if( value.points.length < 2 && currentpoint )
+                {
+                    dif = difPoints(value.points[0], currentpoint)
+                }
+                if( value.points.length === 2)
+                {
+                    dif = difPoints(value.points[0], value.points[1])
+                }
+                context.beginPath();
+                context.arc(value.points[0].x, value.points[0].y , dif.difx, dif.dify, 2*Math.PI);
                 context.fillStyle = value.color;
                 context.fill();
             }

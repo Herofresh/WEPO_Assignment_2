@@ -15,7 +15,7 @@ var paintRectangle = false;
 var paintLine = false;
 var paintText = false;
 
-var color = "#FFFFFF";
+var color = "#ff0000";
 
 //buttons functions to be implemented
 $('#circle').click(function(){
@@ -58,10 +58,15 @@ $('#pen').click(function(){
     paintText = false;
 });
 
+$('#color').change(function(e) {
+    color = e.target.value;
+    console.log(color);
+});
+
 $('#canvas').mousedown(function(e){
     if(paintPen)
     {
-        var penLine = { type: 'pen',  points : [], oColor: color }
+        var penLine = { type: 'pen',  points : [], color : color }
         var point = { x : e.pageX - this.offsetLeft , y : e.pageY - this.offsetTop, dragging : false }
         penLine.points.push(point);
         allObjects.push(penLine);
@@ -99,14 +104,13 @@ function redraw(){
     context.clearRect(0, 0, context.canvas.width, context.canvas.height); // Clears the canvas
 
     console.log(allObjects);
-    
-    context.strokeStyle = "#df4b26";
-    context.lineJoin = "round";
-    context.lineWidth = 5;
 
     $.each(allObjects, function(i, value){
         if(value.type === 'pen')
         {
+            context.strokeStyle = value.color;
+            context.lineJoin = "round";
+            context.lineWidth = 5;
             for(var i=0; i < value.points.length; i++) {		
                 context.beginPath();
                 if(value.points[i].dragging && i){

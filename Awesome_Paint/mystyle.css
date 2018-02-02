@@ -3,13 +3,20 @@ html, body {
     height: 100%;
     margin: 0px;
 }
-
-#toolbar {
-    width: 100%;
-    height: 10%;
-}
-
 #canvasDiv {
     width: 100%;
     height: 90%;
+}
+
+input[type="color"] {
+	-webkit-appearance: none;
+	border: none;
+	width: 32px;
+	height: 32px;
+}
+input[type="color"]::-webkit-color-swatch-wrapper {
+	padding: 0;
+}
+input[type="color"]::-webkit-color-swatch {
+	border: none;
 }

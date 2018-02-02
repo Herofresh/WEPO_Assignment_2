@@ -15,21 +15,11 @@ var paintRectangle = false;
 var paintLine = false;
 var paintText = false;
 var eraser = false;
+var size = 5;
 
 var color = "#FFFFFF";
 
 //buttons functions to be implemented
-$('#eraser').click(function(){
-    eraser = true;
-    paintCircle = false;
-    paintPen = false;
-    paintRectangle = false;
-    paintLine = false;
-    paintText = false;
-  
-});
-
-
 $('#circle').click(function(){
     eraser = true;
     paintCircle = true;
@@ -37,6 +27,7 @@ $('#circle').click(function(){
     paintRectangle = false;
     paintLine = false;
     paintText = false;
+    size = false;
 });
 
 $('#rectangle').click(function(){
@@ -46,6 +37,7 @@ $('#rectangle').click(function(){
     paintRectangle = true;
     paintLine = false;
     paintText = false;
+    size = false;
 });
 
 $('#line').click(function(){
@@ -55,6 +47,7 @@ $('#line').click(function(){
     paintRectangle = false;
     paintLine = true;
     paintText = false;
+    size = false;
 });
 
 $('#text').click(function(){
@@ -64,6 +57,7 @@ $('#text').click(function(){
     paintRectangle = false;
     paintLine = false;
     paintText = true;
+    size = false;
 });
 
 $('#pen').click(function(){
@@ -73,6 +67,7 @@ $('#pen').click(function(){
     paintRectangle = false;
     paintLine = false;
     paintText = false;
+    size = false;
 });
 
 $('#canvas').mousedown(function(e){
@@ -114,8 +109,14 @@ function DrawCircle(clickX,clickY){
 
 $('#eraser').click(function(){
     context.clearRect(0, 0, context.canvas.width, context.canvas.height); 
-    allObjects = null; 
+    allObjects = []; 
     console.log('allObjects'); 
+
+})
+
+$('#size').click(function(){
+    size = 10+context.lineWidth;
+     
 
 })
 
@@ -126,7 +127,7 @@ function redraw(){
     
     context.strokeStyle = "#df4b26";
     context.lineJoin = "round";
-    context.lineWidth = 5;
+    context.lineWidth = size;
 
     $.each(allObjects, function(i, value){
         if(value.type === 'pen')

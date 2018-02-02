@@ -5,63 +5,80 @@ canvas.height = window.innerHeight;
 
 context = canvas.getContext("2d");
 
-var clickX = new Array();
-var clickY = new Array();
-var clickDrag = new Array();
+var allObjects = new Array();
+
 var paint;
 
+var paintPen = true;
+var paintCircle = false;
+var paintRectangle = false;
+var paintLine = false;
+var paintText = false;
+
+var color = "#FFFFFF";
+
 //buttons functions to be implemented
-var circle = document.getElementById('circle');
-circle.addEventListener('click',function(){
-
+$('#circle').click(function(){
+    paintCircle = true;
+    paintPen = false;
+    paintRectangle = false;
+    paintLine = false;
+    paintText = false;
 });
 
-var rectangle = document.getElementById('rectangle');
-rectangle.addEventListener('click',function(){
-  console.log('to be implemented');
-
+$('#rectangle').click(function(){
+    paintCircle = false;
+    paintPen = false;
+    paintRectangle = true;
+    paintLine = false;
+    paintText = false;
 });
 
-var line = document.getElementById('line');
-line.addEventListener('click',function(){
-  console.log('to be implemented');
-
+$('#line').click(function(){
+    paintCircle = false;
+    paintPen = false;
+    paintRectangle = false;
+    paintLine = true;
+    paintText = false;
 });
 
-var text = document.getElementById('text');
-text.addEventListener('click',function(){
-  console.log('to be implemented');
-
+$('#text').click(function(){
+    paintCircle = false;
+    paintPen = false;
+    paintRectangle = false;
+    paintLine = false;
+    paintText = true;
 });
 
-var pen = document.getElementById('pen');
-pen.addEventListener('click',function(){
-  console.log('to be implemented');
-
+$('#pen').click(function(){
+    paintCircle = false;
+    paintPen = true;
+    paintRectangle = false;
+    paintLine = false;
+    paintText = false;
 });
-
-//Record the position of the mouse in an array. 
-function addClick(x, y, dragging)
-{
-//adds one or more elements to the end of an array and returns the new length of the array.
-  clickX.push(x); 
-  clickY.push(y);
-  clickDrag.push(dragging);
-}
 
 $('#canvas').mousedown(function(e){
-    var mouseX = e.pageX - this.offsetLeft;
-    var mouseY = e.pageY - this.offsetTop;
+    if(paintPen)
+    {
+        var penLine = { type: 'pen',  points : [], oColor: color }
+        var point = { x : e.pageX - this.offsetLeft , y : e.pageY - this.offsetTop, dragging : false }
+        penLine.points.push(point);
+        allObjects.push(penLine);
+    }
           
     paint = true;
-    addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop);
+
     redraw();
 });
 
 $('#canvas').mousemove(function(e){
     if(paint){
-      addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop, true);
-      redraw();
+        if(paintPen)
+        {
+            allObjects[allObjects.length - 1].points.push( { x : e.pageX - this.offsetLeft , y : e.pageY - this.offsetTop, dragging : true } )
+        }
+        redraw();
     }
 });
 
@@ -73,7 +90,7 @@ $('#canvas').mouseleave(function(e){
     paint = false;
 });
 
-function DrawCircle(clickX,clickY,canvas){
+function DrawCircle(clickX,clickY){
     var rad = dist(clickX,clickY);
 
 }
@@ -84,6 +101,10 @@ function redraw(){
     context.strokeStyle = "#df4b26";
     context.lineJoin = "round";
     context.lineWidth = 5;
+
+    $.each(allObjects, function(value){
+
+    })
               
     for(var i=0; i < clickX.length; i++) {		
       context.beginPath();

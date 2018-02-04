@@ -320,6 +320,26 @@ function redraw(currentpoint) {
                 drawText(value);
             }
         }
+
+             if(value.type === 'circle')
+        {
+            if((value.points.length < 2 && currentpoint) || (value.points.length === 2))
+            {
+                var dif
+                if( value.points.length < 2 && currentpoint )
+                {
+                    dif = difPoints(value.points[0], currentpoint)
+                }
+                if( value.points.length === 2)
+                {
+                    dif = difPoints(value.points[0], value.points[1])
+                }
+                context.beginPath();
+                context.arc(value.points[0].x, value.points[0].y , dif.difx, dif.dify, 2*Math.PI);
+                context.fillStyle = value.color;
+                context.fill();
+            }
+        }
     });
 }
 

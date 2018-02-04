@@ -23,9 +23,19 @@
     <div id="line" class="btn btn-primary">Line</div>
     <div id="text" class="btn btn-primary">Text</div>
     <div id="pen" class="btn btn-primary">Pen</div>
+    <div id="select" class="btn btn-primary">Select</div>
     <div id="eraser" class="btn btn-primary">Eraser</div>
+    <div id="undo" class="btn btn-primary">Undo</div>
+    <div id="redo" class="btn btn-primary">Redo</div>
+    <div id="save" class="btn btn-primary" data-toggle="modal" data-target="#savemodel">Save</div>
+    <div id="load" class="btn btn-primary" data-toggle="modal" data-target="#loadmodel" onclick="loadData()">Load</div>
     <input id="color" type="color" value="#ff0000">
-    <input id="size" type="number" step="1" min="0" max="100" value="5">
+    <input id="size" type="number" step="1" min="0" max="100" value="12">
+    <select id="font" class="selectpicker">
+      <option value="Calibri">Calibri</option>
+      <option value="Times New Roman">Times New Roman</option>
+      <option value="Impact">Impact</option>
+    </select>
 
   </div>
   <div id="canvasDiv">
@@ -42,5 +52,52 @@
     crossorigin="anonymous"></script>
   <script src="./scripts/canvasInit.js"></script>
 </body>
+
+
+<!-- Modal -->
+<div class="modal fade" id="savemodel" tabindex="-1" role="dialog" aria-labelledby="savemodel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Save File</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h3>File Name:</h3>
+        <input id="filename" type="text">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" onclick="saveData()" data-dismiss="modal">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</html>
+
+<div class="modal fade" id="loadmodel" tabindex="-1" role="dialog" aria-labelledby="loadmodel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Load File</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h3>All saved Files:</h3>
+        <select id="savedFilesPicker" class="selectpicker">
+        </select>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" onclick="load()" data-dismiss="modal">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 </html>
